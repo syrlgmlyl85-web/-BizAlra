@@ -43,29 +43,34 @@ const AIMessagesPage = () => {
   const [isGenerating, setIsGenerating] = useState(false);
   const [copied, setCopied] = useState(false);
 
+  const buildMessagePayload = (modifier?: string) => {
+    const purposeLabels: Record<string, string> = {
+      sale: "sales/promotional message", service: "customer service message",
+      reminder: "appointment reminder", post: "social media post",
+      collection: "gentle payment collection message", launch: "product/service launch announcement",
+    };
+
+    const toneLabels: Record<string, string> = {
+      formal: "formal and professional", warm: "warm and friendly",
+      marketing: "persuasive marketing", emotional: "emotional and personal",
+      short: "concise and to-the-point", luxury: "luxury and premium",
+    };
+
+    return {
+      messageType: purposeLabels[purpose] || (isHe ? "הודעה" : "message"),
+      tone: toneLabels[tone] || (isHe ? "מקצועי" : "professional"),
+      audience,
+      details,
+      language: "hebrew",
+      modifier: modifier || "",
+    };
+  };
+
   const handleGenerate = async (modifier?: string) => {
     setIsGenerating(true);
     try {
-      const purposeLabels: Record<string, string> = {
-        sale: "sales/promotional message", service: "customer service message",
-        reminder: "appointment reminder", post: "social media post",
-        collection: "gentle payment collection message", launch: "product/service launch announcement",
-      };
-      const toneLabels: Record<string, string> = {
-        formal: "formal and professional", warm: "warm and friendly",
-        marketing: "persuasive marketing", emotional: "emotional and personal",
-        short: "concise and to-the-point", luxury: "luxury and premium",
-      };
-
-      let extra = modifier || "";
-      const text = await generateMessage({
-        messageType: purposeLabels[purpose] || (isHe ? "הודעה" : "message"),
-        tone: toneLabels[tone] || (isHe ? "מקצועי" : "professional"),
-        audience,
-        details,
-        language: isHe ? "hebrew" : "english",
-        modifier: extra,
-      });
+      const payload = buildMessagePayload(modifier);
+      const text = await generateMessage(payload);
       setResult(text);
       // Auto-save to personal archive
       if (text && !text.startsWith("שגיאה") && !text.startsWith("Failed")) {
@@ -201,6 +206,12 @@ const AIMessagesPage = () => {
                   </button>
                 </div>
               </div>
+            </div>
+          ) : isGenerating ? (
+            <div className="flex-1 flex flex-col items-center justify-center text-center py-16 opacity-80">
+              <div className="w-16 h-16 rounded-2xl glass-card flex items-center justify-center mb-4"><Loader2 size={24} className="animate-spin text-muted-foreground" /></div>
+              <p className="text-sm font-bold text-foreground">{isHe ? "מנסח את ההודעה שלך..." : "Crafting your message..."}</p>
+              <p className="text-xs text-muted-foreground mt-1">{isHe ? "אנא המתן בזמן שהמערכת יוצרת ניסוח שיווקי מקצועי." : "Please wait while the system generates a professional marketing copy."}</p>
             </div>
           ) : (
             <div className="flex-1 flex flex-col items-center justify-center text-center py-16 opacity-60">

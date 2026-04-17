@@ -12,6 +12,29 @@ export async function generateImage(prompt: string, editImage?: string): Promise
   return data.imageUrl;
 }
 
+export interface GenerateStudioImagePayload {
+  imageType: string;
+  style: string;
+  bgColor: string;
+  ratio: string;
+  description?: string;
+  editImage?: string;
+}
+
+export async function generateStudioImage(payload: GenerateStudioImagePayload): Promise<string[]> {
+  const response = await fetch("/api/image-studio", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+
+  const data = await response.json();
+  if (!response.ok || data?.error) throw new Error(data?.error || "Image Studio generation failed");
+  if (!Array.isArray(data?.imageUrls) || data.imageUrls.length === 0) throw new Error("No images returned");
+
+  return data.imageUrls;
+}
+
 export async function generateText(prompt: string, systemPrompt?: string): Promise<string> {
   const response = await fetch("/api/generate-text", {
     method: "POST",
@@ -35,7 +58,7 @@ export interface GenerateMessagePayload {
 }
 
 export async function generateMessage(payload: GenerateMessagePayload): Promise<string> {
-  const response = await fetch("/api/generate", {
+  const response = await fetch("/api/chat", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
@@ -46,9 +69,9 @@ export async function generateMessage(payload: GenerateMessagePayload): Promise<
     const errorText = data?.error || "Message generation failed";
     throw new Error(errorText);
   }
-  if (!data?.message) throw new Error("No message was generated");
+  if (!data?.text) throw new Error("No message was generated");
 
-  return data.message;
+  return data.text;
 }
 
 export interface GenerateAnalyticsPayload {

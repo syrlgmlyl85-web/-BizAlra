@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { useI18n } from "@/lib/i18n";
-import { generateImage } from "@/lib/ai-service";
+import { generateStudioImage } from "@/lib/ai-service";
 import { trackCreation, trackDownload } from "@/lib/activity-tracker";
 import SparkleIcon from "@/components/SparkleIcon";
 import {
@@ -97,31 +97,20 @@ const ImageStudioPage = () => {
     setIsGenerating(true);
     setResults([]);
     try {
-      const typeMap: Record<string, string> = {
-        product: "professional product photograph", profile: "professional business profile portrait",
-        logo: "modern clean logo design", banner: "marketing banner image",
-      };
-      const styleMap: Record<string, string> = {
-        realistic: "photorealistic, high-end studio quality", minimal: "minimalist, clean lines, lots of whitespace",
-        luxury: "luxury premium, elegant, sophisticated", cartoon: "modern illustration style, clean vectors",
-        soft: "soft, gentle, warm dreamy aesthetic", modern: "contemporary modern, bold and crisp",
-      };
+      const imageUrls = await generateStudioImage({
+        imageType,
+        style,
+        bgColor,
+        ratio,
+        description,
+        editImage: uploadedImage || undefined,
+      });
 
-      const base = `Create a ${typeMap[imageType]}. Style: ${styleMap[style]}. Background color: ${bgColor}. Aspect ratio: ${ratio}. ${description ? `Details: ${description}.` : ""} Professional quality, perfect composition, high resolution.`;
-
-      const promises = [
-        generateImage(base, uploadedImage || undefined),
-        generateImage(base + " Alternative composition.", uploadedImage || undefined),
-      ];
-
-      const settled = await Promise.allSettled(promises);
-      const images = settled.filter((r): r is PromiseFulfilledResult<string> => r.status === "fulfilled").map(r => r.value);
-
-      if (images.length === 0) throw new Error("Generation failed");
-      setResults(images);
+      if (imageUrls.length === 0) throw new Error("Generation failed");
+      setResults(imageUrls);
       setActiveResult(0);
       incrementUsage();
-      trackCreation(); // Track the creation action
+      trackCreation();
     } catch (err) {
       console.error("Generation failed:", err);
     } finally {
