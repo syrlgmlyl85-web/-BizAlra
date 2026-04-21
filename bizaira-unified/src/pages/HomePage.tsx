@@ -25,10 +25,10 @@ const HomePage = () => {
     <div className="px-4 pt-8 pb-4">
       {/* Hero */}
       <div className="text-center mb-12 animate-float-up pt-4">
-        <h1 className="text-3xl md:text-5xl font-extrabold leading-tight mb-5 tracking-tight">
-          <span className="text-primary font-bold">{t("home.hero.title2")}</span>
+        <h1 className="text-3xl md:text-5xl font-bold leading-tight mb-8 tracking-tight text-center" style={{color: "#020817"}}>
+          {t("home.hero.title2")}
         </h1>
-        <p className="text-muted-foreground text-base md:text-lg leading-relaxed max-w-md mx-auto mb-9">
+        <p className="text-primary text-base md:text-lg leading-relaxed max-w-md mx-auto mb-9">
           {t("home.hero.desc")}
         </p>
 
