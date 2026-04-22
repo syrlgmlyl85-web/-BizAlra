@@ -57,7 +57,7 @@ const OnboardingPage = () => {
   ];
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-4 py-8 bg-background">
+    <div className="min-h-screen flex items-center justify-center px-4 py-8 bg-background" style={{fontFamily: "'Montserrat', sans-serif"}}>
       <div className="w-full max-w-md">
         {/* Logo */}
         <div className="text-center mb-6">
@@ -79,7 +79,7 @@ const OnboardingPage = () => {
           <div className="glass-card rounded-2xl p-6 glow-shadow animate-float-up">
             <div className="flex items-center gap-2 mb-4">
               <Briefcase size={20} className="text-primary" />
-              <h2 className="text-lg font-bold text-foreground">
+              <h2 className="text-lg font-bold text-foreground" style={{fontFamily: "'Montserrat', sans-serif", fontWeight: 700}}>
                 {lang === "he" ? "מה סוג העסק שלך?" : "What type of business do you have?"}
               </h2>
             </div>
@@ -93,6 +93,7 @@ const OnboardingPage = () => {
                       ? "border-primary bg-secondary text-foreground font-semibold"
                       : "border-border bg-background text-muted-foreground hover:border-primary/30"
                   }`}
+                  style={{fontFamily: "'Montserrat', sans-serif"}}
                 >
                   {type}
                 </button>
@@ -102,6 +103,7 @@ const OnboardingPage = () => {
               onClick={() => businessType && setStep(1)}
               disabled={!businessType}
               className="w-full gradient-glow text-primary-foreground font-bold py-3 rounded-2xl mt-5 flex items-center justify-center gap-2 hover:scale-[1.02] transition-all disabled:opacity-40 disabled:hover:scale-100"
+              style={{fontFamily: "'Montserrat', sans-serif"}}
             >
               {lang === "he" ? "המשך" : "Continue"}
               <NextArrow size={16} />
@@ -114,7 +116,7 @@ const OnboardingPage = () => {
           <div className="glass-card rounded-2xl p-6 glow-shadow animate-float-up">
             <div className="flex items-center gap-2 mb-4">
               <User size={20} className="text-primary" />
-              <h2 className="text-lg font-bold text-foreground">
+              <h2 className="text-lg font-bold text-foreground" style={{fontFamily: "'Montserrat', sans-serif", fontWeight: 700}}>
                 {lang === "he" ? "מה השם שלך?" : "What's your name?"}
               </h2>
             </div>
@@ -124,6 +126,7 @@ const OnboardingPage = () => {
               onChange={(e) => setUserName(e.target.value)}
               placeholder={lang === "he" ? "השם שלך" : "Your name"}
               className="w-full bg-background border border-border rounded-xl px-4 py-3 text-foreground placeholder:text-muted-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 transition-all"
+              style={{fontFamily: "'Montserrat', sans-serif"}}
               autoFocus
             />
             <div className="flex gap-2 mt-5">
@@ -137,6 +140,7 @@ const OnboardingPage = () => {
                 onClick={() => userName.trim() && setStep(2)}
                 disabled={!userName.trim()}
                 className="flex-1 gradient-glow text-primary-foreground font-bold py-3 rounded-2xl flex items-center justify-center gap-2 hover:scale-[1.02] transition-all disabled:opacity-40 disabled:hover:scale-100"
+                style={{fontFamily: "'Montserrat', sans-serif"}}
               >
                 {lang === "he" ? "המשך" : "Continue"}
                 <NextArrow size={16} />
@@ -150,13 +154,13 @@ const OnboardingPage = () => {
           <div className="glass-card rounded-2xl p-6 glow-shadow animate-float-up">
             <div className="flex items-center gap-2 mb-4">
               <Mail size={20} className="text-primary" />
-              <h2 className="text-lg font-bold text-foreground">
+              <h2 className="text-lg font-bold text-foreground" style={{fontFamily: "'Montserrat', sans-serif", fontWeight: 700}}>
                 {lang === "he" ? "התחברות באמצעות אימייל" : "Sign in with email"}
               </h2>
             </div>
             <div className="space-y-3">
               <div>
-                <label className="text-xs font-semibold text-muted-foreground mb-1 block">
+                <label className="text-xs font-semibold text-muted-foreground mb-1 block" style={{fontFamily: "'Montserrat', sans-serif"}}>
                   {lang === "he" ? "אימייל" : "Email"}
                 </label>
                 <div className="relative">
@@ -167,13 +171,14 @@ const OnboardingPage = () => {
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="your@email.com"
                     className="w-full bg-background border border-border rounded-xl pe-10 ps-3 py-3 text-foreground placeholder:text-muted-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 transition-all"
+                    style={{fontFamily: "'Montserrat', sans-serif"}}
                     dir="ltr"
                     autoFocus
                   />
                 </div>
               </div>
               <div>
-                <label className="text-xs font-semibold text-muted-foreground mb-1 block">
+                <label className="text-xs font-semibold text-muted-foreground mb-1 block" style={{fontFamily: "'Montserrat', sans-serif"}}>
                   {lang === "he" ? "סיסמה" : "Password"}
                 </label>
                 <div className="relative">
@@ -184,6 +189,7 @@ const OnboardingPage = () => {
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="••••••••"
                     className="w-full bg-background border border-border rounded-xl pe-10 ps-3 py-3 text-foreground placeholder:text-muted-foreground text-sm focus:outline-none focus:ring-2 focus:ring-primary/40 transition-all"
+                    style={{fontFamily: "'Montserrat', sans-serif"}}
                     dir="ltr"
                   />
                 </div>
@@ -200,6 +206,7 @@ const OnboardingPage = () => {
                 onClick={() => email && password && setStep(3)}
                 disabled={!email || !password}
                 className="flex-1 gradient-glow text-primary-foreground font-bold py-3 rounded-2xl flex items-center justify-center gap-2 hover:scale-[1.02] transition-all disabled:opacity-40 disabled:hover:scale-100"
+                style={{fontFamily: "'Montserrat', sans-serif"}}
               >
                 <Sparkles size={16} />
                 {lang === "he" ? "צור חשבון" : "Create Account"}
@@ -212,10 +219,10 @@ const OnboardingPage = () => {
         {step === 3 && (
           <div className="animate-float-up">
             <div className="text-center mb-6">
-              <h2 className="text-xl font-extrabold text-foreground mb-2">
+              <h2 className="text-3xl font-bold text-foreground mb-2" style={{fontFamily: "'Playfair Display', serif", color: "#001830"}}>
                 {lang === "he" ? `ברוך הבא, ${userName}!` : `Welcome, ${userName}!`}
               </h2>
-              <p className="text-sm text-muted-foreground">
+              <p className="text-sm text-muted-foreground" style={{fontFamily: "'Montserrat', sans-serif"}}>
                 {lang === "he"
                   ? "BizAIra היא מערכת AI שיוצרת לעסק שלך תוכן שיווקי מקצועי — בלחיצה."
                   : "BizAIra is an AI system that creates professional marketing content for your business — in one click."}
@@ -229,13 +236,13 @@ const OnboardingPage = () => {
                   <div
                     key={i}
                     className="glass-card rounded-2xl p-4 flex items-start gap-3 animate-float-up"
-                    style={{ animationDelay: `${i * 80}ms` }}
+                    style={{ animationDelay: `${i * 80}ms`, fontFamily: "'Montserrat', sans-serif" }}
                   >
                     <div className="w-9 h-9 rounded-xl gradient-glow flex items-center justify-center shrink-0 shadow-md">
                       <Icon size={18} className="text-primary-foreground" />
                     </div>
                     <div>
-                      <div className="font-semibold text-sm text-foreground">{feat.title}</div>
+                      <div className="font-semibold text-sm text-foreground" style={{fontWeight: 700}}>{feat.title}</div>
                       <div className="text-xs text-muted-foreground mt-0.5">{feat.desc}</div>
                     </div>
                   </div>
@@ -246,6 +253,7 @@ const OnboardingPage = () => {
             <button
               onClick={handleFinish}
               className="w-full gradient-glow glow-shadow text-primary-foreground font-bold py-4 rounded-2xl text-base flex items-center justify-center gap-2 hover:scale-[1.02] transition-all animate-glow-pulse"
+              style={{fontFamily: "'Montserrat', sans-serif"}}
             >
               <SparkleIcon size={16} />
               {lang === "he" ? "בואו נתחיל!" : "Let's get started!"}

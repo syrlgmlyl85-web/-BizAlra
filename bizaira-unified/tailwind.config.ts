@@ -14,6 +14,9 @@ export default {
       fontFamily: {
         heebo: ["Heebo", "sans-serif"],
         display: ["Space Grotesk", "Heebo", "sans-serif"],
+        assistant: ["Assistant", "sans-serif"],
+        playfair: ["Playfair Display", "serif"],
+        montserrat: ["Montserrat", "sans-serif"],
       },
       colors: {
         border: "hsl(var(--border))",

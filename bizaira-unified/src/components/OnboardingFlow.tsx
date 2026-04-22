@@ -122,13 +122,13 @@ const OnboardingFlow = ({ onComplete }: OnboardingFlowProps) => {
               />
             </div>
 
-            <h1 className="text-3xl font-black mb-3" style={{ color: NAVY }}>
+            <h1 className="text-4xl font-bold mb-3" style={{ color: NAVY, fontFamily: "'Playfair Display', serif" }}>
               {isHe ? "היי! איזה כיף שהגעת" : "Hey! So glad you're here"}
             </h1>
-            <p className="text-base font-semibold mb-2" style={{ color: NAVY }}>
+            <p className="text-lg font-semibold mb-2" style={{ color: NAVY, fontFamily: "'Montserrat', sans-serif" }}>
               {isHe ? "עוד רגע מתחילים" : "We're about to begin"}
             </p>
-            <p className="text-sm text-muted-foreground mb-10 leading-relaxed max-w-xs mx-auto">
+            <p className="text-sm text-muted-foreground mb-10 leading-relaxed max-w-xs mx-auto" style={{fontFamily: "'Montserrat', sans-serif"}}>
               {isHe
                 ? "רק 3 שאלות קצרות שיעזרו לנו להתאים לך חוויה מדויקת לעסק שלך."
                 : "Just 3 quick questions to tailor the perfect experience for your business."}
@@ -137,6 +137,7 @@ const OnboardingFlow = ({ onComplete }: OnboardingFlowProps) => {
             <button
               onClick={() => setStep("business")}
               className="w-full py-4 rounded-2xl font-bold text-lg gradient-glow text-white glow-shadow hover:scale-[1.02] transition-all flex items-center justify-center gap-2"
+              style={{fontFamily: "'Montserrat', sans-serif"}}
             >
               <Sparkles size={18} />
               {isHe ? "מוכנים? בואו נתחיל" : "Ready? Let's go!"}
@@ -165,6 +166,7 @@ const OnboardingFlow = ({ onComplete }: OnboardingFlowProps) => {
                       color:        selected ? "#fff"    : NAVY,
                       boxShadow:    selected ? `0 4px 16px -4px ${NAVY}44` : "none",
                       transform:    selected ? "scale(1.03)" : "scale(1)",
+                      fontFamily: "'Montserrat', sans-serif",
                     }}
                   >
                     <Icon size={20} strokeWidth={1.5} />
@@ -178,6 +180,7 @@ const OnboardingFlow = ({ onComplete }: OnboardingFlowProps) => {
               onClick={() => businessType && setStep("business-info")}
               disabled={!businessType}
               className="w-full py-3.5 rounded-2xl font-bold gradient-glow text-white glow-shadow hover:scale-[1.02] transition-all disabled:opacity-35 disabled:cursor-not-allowed disabled:hover:scale-100"
+              style={{fontFamily: "'Montserrat', sans-serif"}}
             >
               {isHe ? "המשך" : "Continue"}
             </button>
@@ -190,10 +193,10 @@ const OnboardingFlow = ({ onComplete }: OnboardingFlowProps) => {
             <div className="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-6" style={{ background: "hsl(216 50% 94%)" }}>
               <Check size={24} style={{ color: PURPLE }} />
             </div>
-            <h2 className="text-2xl font-black mb-3" style={{ color: NAVY }}>
+            <h2 className="text-3xl font-bold mb-3" style={{ color: NAVY, fontFamily: "'Playfair Display', serif" }}>
               {isHe ? "נהדר, הבנו!" : "Got it!"}
             </h2>
-            <p className="text-sm text-muted-foreground leading-relaxed mb-10 max-w-xs mx-auto">
+            <p className="text-sm text-muted-foreground leading-relaxed mb-10 max-w-xs mx-auto" style={{fontFamily: "'Montserrat', sans-serif"}}>
               {businessInfoText}
             </p>
             <button

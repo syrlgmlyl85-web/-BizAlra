@@ -1,7 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Assistant:wght@200;300;400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800;900&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -44,12 +43,11 @@
   --color-sidebar-accent-foreground: hsl(var(--sidebar-accent-foreground));
   --color-sidebar-ring: hsl(var(--sidebar-ring));
 
-  --font-sans: 'Montserrat', sans-serif;
+  --font-sans: 'Inter', sans-serif;
   --font-serif: 'Playfair Display', serif;
   --font-inter: 'Inter', sans-serif;
   --font-playfair: 'Playfair Display', serif;
   --font-assistant: 'Assistant', sans-serif;
-  --font-montserrat: 'Montserrat', sans-serif;
 
   --radius-sm: 8px;
   --radius-md: 10px;
@@ -85,12 +83,83 @@
   --destructive-foreground: 0 0% 100%;
 
   /* ── Borders / Inputs ── */
-  --border: 217 20% 92%;
-  --input:  217 20% 94%;
+  --border: 220 16% 92%;
+  --input:  220 16% 94%;
   --ring:   216 68% 12%;
 
-  /* ── Deep Navy for Premium Text ── */
-  --deep-navy: 216 95% 7%;
+  /* ── Radius ── */
+  --radius: 12px;
+
+  /* ── Luxury Color Palette ── */
+  --luxury-navy: 216 91% 4.5%;
+  --luxury-gold: 207 65% 12%;
+  --luxury-lilac: 270 30% 65%;
+  --luxury-black: 222 47% 8%;
+  --luxury-white: 0 0% 100%;
+  --luxury-gray-50: 220 25% 98%;
+  --luxury-gray-100: 220 20% 96%;
+  --luxury-gray-200: 220 18% 94%;
+  --luxury-gray-300: 220 16% 92%;
+  --luxury-gray-400: 220 12% 70%;
+  --luxury-gray-500: 220 12% 50%;
+  --luxury-gray-600: 220 12% 35%;
+  --luxury-gray-700: 220 12% 25%;
+  --luxury-gray-800: 220 12% 15%;
+  --luxury-gray-900: 222 47% 8%;
+
+  /* ── Gradient vars ── */
+  --gradient-from: 216 68% 15%;
+  --gradient-to:   216 68% 10%;
+  --gradient-gold: linear-gradient(135deg, hsl(207 65% 12%), hsl(207 65% 8%));
+  --gradient-luxury: linear-gradient(135deg, hsl(216 68% 12%), hsl(270 30% 65%));
+
+  /* ── Glassmorphism ── */
+  --glass-bg: rgba(255, 255, 255, 0.8);
+  --glass-border: rgba(255, 255, 255, 0.2);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+
+  /* ── Legacy compat vars ── */
+  --gold:          207 65% 12%;
+  --glow-start:    216 68% 15%;
+  --glow-mid:      216 91% 4.5%;
+  --glow-end:      216 68% 10%;
+  --gold-sparkle:  207 65% 12%;
+  --surface-glass: 0 0% 100%;
+
+  /* ── Accessibility vars ── */
+  --font-size-multiplier: 1;
+  --line-height-multiplier: 1;
+  --letter-spacing-multiplier: 1;
+  --contrast-mode: normal;
+  --color-mode: normal;
+  --animation-mode: enabled;
+
+  /* ── Base ── */
+  --background:    220 25% 98%;
+  --foreground:    222 47% 8%;
+
+  /* ── Primary = Deep Navy #040b14 ── */
+  --primary:            216 91% 4.5%;
+  --primary-foreground: 0 0% 100%;
+
+  /* ── Secondary / Muted ── */
+  --secondary:             220 20% 96%;
+  --secondary-foreground:  216 91% 4.5%;
+  --muted:                 220 18% 97%;
+  --muted-foreground:      220 12% 45%;
+
+  /* ── Accent = Navy Blue #020817 ── */
+  --accent:            216 84% 5%;
+  --accent-foreground: 0 0% 100%;
+
+  /* ── Destructive ── */
+  --destructive:            0 84% 60%;
+  --destructive-foreground: 0 0% 100%;
+
+  /* ── Borders / Inputs ── */
+  --border: 220 16% 92%;
+  --input:  220 16% 94%;
+  --ring:   216 68% 12%;
 
   /* ── Radius ── */
   --radius: 12px;

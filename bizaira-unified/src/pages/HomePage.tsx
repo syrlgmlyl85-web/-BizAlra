@@ -25,10 +25,10 @@ const HomePage = () => {
     <div className="px-4 pt-8 pb-4">
       {/* Hero */}
       <div className="text-center mb-12 animate-float-up pt-4">
-        <h1 className="text-3xl md:text-5xl font-bold leading-tight mb-8 tracking-tight text-center" style={{color: "#020817"}}>
+        <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-6 tracking-tight text-center" style={{color: "#001830", fontFamily: "'Playfair Display', serif"}}>
           {t("home.hero.title2")}
         </h1>
-        <p className="text-primary text-base md:text-lg leading-relaxed max-w-md mx-auto mb-9">
+        <p className="text-primary text-base md:text-lg leading-relaxed max-w-md mx-auto mb-9" style={{fontFamily: "'Montserrat', sans-serif", fontWeight: 500}}>
           {t("home.hero.desc")}
         </p>
 
@@ -36,6 +36,7 @@ const HomePage = () => {
           <Link
             to="/create"
             className="gradient-glow glow-shadow text-primary-foreground font-bold px-8 py-4 rounded-2xl text-lg flex items-center gap-2 transition-all duration-300 hover:scale-105 animate-glow-pulse"
+            style={{fontFamily: "'Montserrat', sans-serif"}}
           >
             <Sparkles size={20} />
             {t("home.cta.start")}
@@ -43,6 +44,7 @@ const HomePage = () => {
           <Link
             to="/auth"
             className="bg-card border border-border text-foreground font-semibold px-8 py-4 rounded-2xl text-lg flex items-center gap-2 transition-all duration-300 hover:scale-105 hover:border-primary/40"
+            style={{fontFamily: "'Montserrat', sans-serif"}}
           >
             {t("home.cta.auth")}
             <BackArrow size={18} />
@@ -57,9 +59,9 @@ const HomePage = () => {
             <div
               key={i}
               className="glass-card rounded-2xl p-5 transition-all duration-300"
-              style={{ animationDelay: `${i * 100}ms` }}
+              style={{ animationDelay: `${i * 100}ms`, fontFamily: "'Montserrat', sans-serif" }}
             >
-              <h4 className="font-bold text-sm text-foreground mb-2">{slide.title}</h4>
+              <h4 className="font-bold text-sm text-foreground mb-2" style={{fontWeight: 700}}>{slide.title}</h4>
               <p className="text-xs text-muted-foreground leading-relaxed">{slide.desc}</p>
             </div>
           ))}
@@ -68,7 +70,7 @@ const HomePage = () => {
 
       {/* Tools grid */}
       <div className="mb-6">
-        <h3 className="text-lg font-bold mb-5 text-foreground flex items-center gap-2">
+        <h3 className="text-lg font-bold mb-5 text-foreground flex items-center gap-2" style={{fontFamily: "'Montserrat', sans-serif", fontWeight: 700}}>
           <SparkleIcon size={14} />
           {t("home.tools.title")}
         </h3>
@@ -78,9 +80,9 @@ const HomePage = () => {
               key={tool.title}
               to={tool.to}
               className="glass-card rounded-2xl p-4 hover:scale-[1.03] hover:glow-shadow transition-all duration-300 group"
-              style={{ animationDelay: `${i * 80}ms` }}
+              style={{ animationDelay: `${i * 80}ms`, fontFamily: "'Montserrat', sans-serif" }}
             >
-              <div className="font-semibold text-sm text-foreground group-hover:gradient-glow-text transition-all">
+              <div className="font-semibold text-sm text-foreground group-hover:gradient-glow-text transition-all" style={{fontWeight: 700}}>
                 {tool.title}
               </div>
               <div className="text-xs text-muted-foreground mt-1">

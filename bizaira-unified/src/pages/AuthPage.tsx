@@ -65,10 +65,10 @@ const AuthPage = () => {
             style={{ background: "linear-gradient(135deg, hsl(216 68% 16%), hsl(216 68% 14%))", boxShadow: "0 8px 24px -4px hsl(252 73% 60% / 0.35)" }}>
             <Sparkles size={28} className="text-white" strokeWidth={1.5} />
           </div>
-          <h1 className="text-2xl font-black mb-1.5" style={{ color: NAVY }}>
-            {isHe ? "הכל במקום אחד" : "Everything in one place"}
+          <h1 className="text-4xl md:text-5xl font-bold mb-1.5 leading-tight" style={{ color: "#001830", fontFamily: "'Playfair Display', serif", fontWeight: 700 }}>
+            {isHe ? "השותף העסקי שלך" : "Your Business Partner"}
           </h1>
-          <p className="text-sm text-muted-foreground">
+          <p className="text-sm text-muted-foreground mt-3">
             {isLogin ? t("auth.welcomeBack") : t("auth.joinStudio")}
           </p>
         </div>
