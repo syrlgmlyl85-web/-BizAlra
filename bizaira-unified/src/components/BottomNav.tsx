@@ -2,7 +2,8 @@ import { NavLink as RouterNavLink } from "react-router-dom";
 import { Home, Wand2, User, HelpCircle } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 
-const NAVY = "#0D2344";
+const NAVY = "#011224";
+const GOLD = "#D4AF37";
 
 const BottomNav = () => {
   const { lang } = useI18n();
@@ -55,14 +56,14 @@ const BottomNav = () => {
                   size={24}
                   strokeWidth={isActive ? 2 : 1.5}
                   style={{
-                    color: isActive ? NAVY : "#999999",
+                    color: isActive ? GOLD : "#999999",
                     transition: "color 200ms ease-in-out",
                   }}
                 />
                 <span
                   className="text-[11px] font-medium leading-none"
                   style={{
-                    color: isActive ? NAVY : "#999999",
+                    color: isActive ? GOLD : "#999999",
                     fontWeight: isActive ? 700 : 500,
                     fontFamily: "'Montserrat', sans-serif",
                     transition: "color 200ms ease-in-out, font-weight 200ms ease-in-out",

@@ -135,40 +135,106 @@ const DashboardPage = () => {
   const greetingSubtitle = hasName
     ? isHe
       ? "ברוך הבא לאזור האישי הפרטי שלך."
-      : "Welcome to your personal workspace."
+      : "Welcome to your Personal Area."
     : "Welcome to your personal workspace.";
 
-  const NAVY = "#0D2344";
-  const CREAM_BG = "#F7F2E9";
+  const MIDNIGHT_NAVY = "#0a0a0a";
+  const SURFACE_NAVY = "#1a1a2e";
+  const OFF_WHITE = "#f5f5f5";
+  const CREAM_BG = "#f5f5f5";
+  const GOLD = "#D4AF37";
 
   return (
-    <div className="min-h-screen pb-16" style={{ backgroundColor: CREAM_BG, fontFamily: "Heebo, Assistant, sans-serif" }}>
+    <div className="min-h-screen pb-16" style={{ backgroundColor: MIDNIGHT_NAVY, fontFamily: "Heebo, Assistant, sans-serif" }}>
       <div className="max-w-7xl mx-auto px-6 py-12">
-        <div className="rounded-[32px] border bg-white p-10 shadow-[0_24px_60px_-30px_rgba(13,35,68,0.12)]" style={{ borderColor: "rgba(13, 35, 68, 0.08)" }}>
+        <div className="rounded-[32px] border p-10 shadow-[0_24px_60px_-30px_rgba(26,26,46,0.12)]" style={{ backgroundColor: SURFACE_NAVY, borderColor: OFF_WHITE, color: OFF_WHITE }}>
           <div className="grid gap-10 lg:grid-cols-[1.8fr_1fr] items-end">
             <div>
               <p className="text-xs uppercase tracking-[0.3em] text-[#6B6B6B] mb-4">{isHe ? "האזור האישי" : "Personal Area"}</p>
-              <h1 className="text-4xl sm:text-5xl leading-tight mb-4" style={{ fontWeight: 300, color: NAVY }}>
+              <h1 className="text-4xl sm:text-5xl leading-tight mb-4" style={{ fontWeight: 300, color: OFF_WHITE }}>
                 {greetingTitle}
               </h1>
-              <p className="max-w-2xl text-base leading-8 text-[#5B5B5B]" style={{ fontWeight: 300 }}>
+              <p className="max-w-2xl text-base leading-8" style={{ fontWeight: 300, color: OFF_WHITE }}>
                 {greetingSubtitle}
               </p>
             </div>
-            <div className="rounded-[28px] border bg-[#FCF7EE] p-6 shadow-[0_16px_40px_-24px_rgba(13,35,68,0.18)]" style={{ borderColor: "rgba(13, 35, 68, 0.08)" }}>
-              <p className="text-[11px] uppercase tracking-[0.3em] text-[#6B6B6B] mb-4">{isHe ? "סטטוס" : "Status"}</p>
-              <p className="text-3xl font-semibold" style={{ color: NAVY, fontWeight: 500 }}>
+            <div className="rounded-[28px] border p-6 shadow-[0_16px_40px_-24px_rgba(26,26,46,0.18)]" style={{ backgroundColor: SURFACE_NAVY, borderColor: '#2a2a3e', color: OFF_WHITE }}>
+              <p className="text-[11px] uppercase tracking-[0.3em] mb-4" style={{ color: OFF_WHITE }}>{isHe ? "סטטוס" : "Status"}</p>
+              <p className="text-3xl font-semibold" style={{ color: OFF_WHITE, fontWeight: 500 }}>
                 {isHe ? "חלל פרטי" : "Boutique Private"}
               </p>
-              <p className="mt-3 text-sm leading-6 text-[#6B6B6B]" style={{ fontWeight: 300 }}>
+              <p className="mt-3 text-sm leading-6" style={{ color: OFF_WHITE, fontWeight: 300 }}>
                 {isHe ? "חלל עדין וממותג לעבודה עסקית אישית." : "A delicate, branded space for your personal business work."}
               </p>
             </div>
           </div>
         </div>
 
-        <div className="mt-10">
-        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 mb-16">
+        {/* Stats Cards */}
+        <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+          <div className="rounded-[28px] p-6 shadow-[0_18px_45px_-24px_rgba(26,26,46,0.18)] border" style={{ backgroundColor: SURFACE_NAVY, borderColor: '#2a2a3e', color: OFF_WHITE }}>
+            <div className="flex items-center justify-between mb-4">
+              <div className="w-12 h-12 rounded-xl flex items-center justify-center" style={{ backgroundColor: MIDNIGHT_NAVY }}>
+                <TrendingUp size={24} style={{ color: OFF_WHITE }} strokeWidth={1.5} />
+              </div>
+              <span className="text-2xl font-semibold" style={{ color: OFF_WHITE, fontWeight: 500 }}>5</span>
+            </div>
+            <p className="text-sm" style={{ fontWeight: 300, color: OFF_WHITE }}>{isHe ? "פעילויות הושלמו" : "Activities Completed"}</p>
+            <div className="mt-4 w-full rounded-full h-2" style={{ backgroundColor: '#2a2a3e' }}>
+              <div className="h-2 rounded-full" style={{ width: "100%", backgroundColor: OFF_WHITE }}></div>
+            </div>
+            <p className="text-xs mt-2" style={{ color: OFF_WHITE }}>5/5</p>
+          </div>
+
+          <div className="rounded-[28px] p-6 shadow-[0_18px_45px_-24px_rgba(26,26,46,0.18)] border" style={{ backgroundColor: SURFACE_NAVY, borderColor: OFF_WHITE, color: OFF_WHITE }}>
+            <div className="flex items-center justify-between mb-4">
+              <div className="w-12 h-12 rounded-xl flex items-center justify-center" style={{ backgroundColor: MIDNIGHT_NAVY }}>
+                <Sparkles size={24} style={{ color: OFF_WHITE }} strokeWidth={1.5} />
+              </div>
+              <span className="text-2xl font-semibold" style={{ color: OFF_WHITE, fontWeight: 500 }}>0</span>
+            </div>
+            <p className="text-sm" style={{ fontWeight: 300, color: OFF_WHITE }}>{isHe ? "יצירות AI" : "AI Generations"}</p>
+            <div className="mt-4 w-full rounded-full h-2" style={{ backgroundColor: '#2a2a3e' }}>
+              <div className="h-2 rounded-full" style={{ width: "0%", backgroundColor: OFF_WHITE }}></div>
+            </div>
+            <p className="text-xs mt-2" style={{ color: OFF_WHITE }}>0/∞</p>
+          </div>
+
+          <div className="rounded-[28px] p-6 shadow-[0_18px_45px_-24px_rgba(26,26,46,0.18)] border" style={{ backgroundColor: SURFACE_NAVY, borderColor: '#2a2a3e', color: OFF_WHITE }}>
+            <div className="flex items-center justify-between mb-4">
+              <div className="w-12 h-12 rounded-xl flex items-center justify-center" style={{ backgroundColor: MIDNIGHT_NAVY }}>
+                <MessageSquare size={24} style={{ color: OFF_WHITE }} strokeWidth={1.5} />
+              </div>
+              <span className="text-2xl font-semibold" style={{ color: OFF_WHITE, fontWeight: 500 }}>0</span>
+            </div>
+            <p className="text-sm" style={{ fontWeight: 300, color: OFF_WHITE }}>{isHe ? "הודעות נשלחו" : "Messages Sent"}</p>
+            <div className="mt-4 w-full bg-gray-600 rounded-full h-2">
+              <div className="h-2 rounded-full" style={{ width: "0%", backgroundColor: OFF_WHITE }}></div>
+            </div>
+            <p className="text-xs mt-2" style={{ color: OFF_WHITE }}>0/∞</p>
+          </div>
+
+          <div className="rounded-[28px] p-6 shadow-[0_18px_45px_-24px_rgba(26,26,46,0.18)] border" style={{ backgroundColor: SURFACE_NAVY, borderColor: '#2a2a3e', color: OFF_WHITE }}>
+            <div className="flex items-center justify-between mb-4">
+              <div className="w-12 h-12 rounded-xl flex items-center justify-center" style={{ backgroundColor: MIDNIGHT_NAVY }}>
+                <BarChart3 size={24} style={{ color: OFF_WHITE }} strokeWidth={1.5} />
+              </div>
+              <span className="text-2xl font-semibold" style={{ color: OFF_WHITE, fontWeight: 500 }}>0</span>
+            </div>
+            <p className="text-sm" style={{ fontWeight: 300, color: OFF_WHITE }}>{isHe ? "דוחות נוצרו" : "Reports Created"}</p>
+            <div className="mt-4 w-full rounded-full h-2" style={{ backgroundColor: '#2a2a3e' }}>
+              <div className="h-2 rounded-full" style={{ width: "0%", backgroundColor: OFF_WHITE }}></div>
+            </div>
+            <p className="text-xs mt-2" style={{ color: OFF_WHITE }}>0/∞</p>
+          </div>
+        </div>
+
+        {/* Upgrade to PRO Button */}
+        <div className="mt-10 text-center">
+          <button className="px-8 py-4 rounded-[20px] text-white font-light text-lg transition-all duration-300 hover:scale-105 hover:-translate-y-1" style={{ backgroundColor: MIDNIGHT_NAVY, boxShadow: "0 12px 32px -8px rgba(10,10,10,0.24)" }}>
+            {isHe ? "שדרג ל-PRO" : "Upgrade to PRO"}
+          </button>
+        </div>
           {dashboardCards.map((card, index) => {
             const IconComponent = card.icon;
             return (
@@ -177,70 +243,27 @@ const DashboardPage = () => {
                 to={card.href}
                 className={`
                   group relative overflow-hidden rounded-[28px] transition-all duration-300 hover:scale-105 hover:-translate-y-2
-                  ${card.primary ? 'bg-[#0D2344] text-white' : 'bg-white text-[#0D2344] border'}
+                  ${card.primary ? 'bg-[#0a0a0a] text-white' : 'bg-[#1a1a2e] text-[#f5f5f5] border'}
                 `
                 `}
                 style={{
-                  borderColor: card.primary ? 'transparent' : 'rgba(13, 35, 68, 0.08)',
+                  borderColor: card.primary ? 'transparent' : '#2a2a3e',
                   boxShadow: card.primary
-                    ? '0 22px 60px -24px rgba(13, 35, 68, 0.45)'
-                    : '0 18px 45px -24px rgba(13, 35, 68, 0.18)',
+                    ? '0 22px 60px -24px rgba(1, 18, 36, 0.45)'
+                    : '0 18px 45px -24px rgba(1, 18, 36, 0.18)',
                 }}
               >
-                {/* Glassmorphism overlay */}
-                <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-                {/* Animated background particles */}
-                <div className="absolute inset-0">
-                  <div className="absolute top-4 right-4 w-2 h-2 bg-white/20 rounded-full animate-pulse" />
-                  <div className="absolute bottom-6 left-6 w-1 h-1 bg-[#D4AF37]/30 rounded-full animate-pulse delay-100" />
-                  <div className="absolute top-1/2 left-8 w-1.5 h-1.5 bg-white/10 rounded-full animate-pulse delay-200" />
-                </div>
-
-                <div className="relative z-10 p-8 h-full flex flex-col">
-                  {/* Icon with premium styling */}
-                  <div className={`
-                    inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-6 transition-all duration-300 group-hover:scale-110
-                    ${card.primary
-                      ? 'bg-black/20 shadow-lg shadow-black/20'
-                      : 'bg-[#D4AF37]/10 group-hover:bg-[#D4AF37]/20'
-                    }
-                  `}>
-                    <IconComponent
-                      size={32}
-                      className={card.primary ? 'text-black' : 'text-[#D4AF37]'}
-                      strokeWidth={1.5}
-                    />
+                <div className="p-8 h-full flex flex-col">
+                  <div className="inline-flex h-16 w-16 items-center justify-center rounded-3xl border mb-6" style={{ borderColor: card.primary ? "rgba(255,255,255,0.2)" : "rgba(1,18,36,0.14)", backgroundColor: card.primary ? "rgba(255,255,255,0.1)" : "#FCF7EE" }}>
+                    <IconComponent size={26} strokeWidth={1.5} style={{ color: card.primary ? "#FFFFFF" : "#011224" }} />
                   </div>
-
-                  {/* Title */}
-                  <h3
-                    className="text-2xl font-bold mb-4 leading-tight"
-                    style={{
-                      fontFamily: "Assistant, sans-serif",
-                      fontWeight: 700,
-                      color: card.primary ? "#000000" : "#D4AF37",
-                    }}
-                  >
+                  <h3 className="text-2xl font-semibold mb-3" style={{ fontWeight: 500, color: card.primary ? "#FFFFFF" : "#011224" }}>
                     {card.title}
                   </h3>
-
-                  {/* Description */}
-                  <p
-                    className={`text-base leading-relaxed flex-1 ${card.primary ? 'text-black/80' : 'text-[#FFFDD0]/80'}`}
-                    style={{
-                      fontFamily: "Heebo, sans-serif",
-                      fontWeight: 300,
-                    }}
-                  >
+                  <p className="text-sm leading-7" style={{ fontWeight: 300, color: card.primary ? "rgba(255,255,255,0.86)" : "#5B5B5B" }}>
                     {card.description}
                   </p>
-
-                  {/* Premium accent line */}
-                  <div className={`
-                    mt-6 h-1 rounded-full transition-all duration-300
-                    ${card.primary ? 'bg-black/20' : 'bg-[#D4AF37]/30 group-hover:bg-[#D4AF37]/50'}
-                  `} />
+                  <div className={`mt-6 h-1 rounded-full ${card.primary ? "bg-white/20" : "bg-[#D4AF37]/30 group-hover:bg-[#D4AF37]/50"}`} />
                 </div>
 
                 {/* Hover glow effect */}
@@ -260,8 +283,8 @@ const DashboardPage = () => {
             className="rounded-3xl p-10 border"
             style={{
               background: "linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(247, 242, 233, 0.95) 100%)",
-              borderColor: "rgba(13, 35, 68, 0.08)",
-              boxShadow: "0 24px 48px -12px rgba(13, 35, 68, 0.12)",
+              borderColor: "rgba(1, 18, 36, 0.08)",
+              boxShadow: "0 24px 48px -12px rgba(1, 18, 36, 0.12)",
             }}
           >
             <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between mb-10">
@@ -277,11 +300,11 @@ const DashboardPage = () => {
                 onClick={refreshData}
                 className="group inline-flex items-center gap-3 px-6 py-3 rounded-2xl transition-all duration-300 hover:scale-105 hover:-translate-y-1"
                 style={{
-                  background: NAVY,
-                  border: "1px solid rgba(13, 35, 68, 0.12)",
+                  background: "#011224",
+                  border: "1px solid rgba(1, 18, 36, 0.12)",
                   color: "#FFFFFF",
                   fontWeight: 300,
-                  boxShadow: "0 8px 24px -8px rgba(13, 35, 68, 0.2)",
+                  boxShadow: "0 8px 24px -8px rgba(1, 18, 36, 0.2)",
                 }}
               >
                 <RefreshCw size={20} className="group-hover:rotate-180 transition-transform duration-500" />
@@ -304,8 +327,8 @@ const DashboardPage = () => {
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-6">
-                        <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-[#0D2344]/10 group-hover:bg-[#0D2344]/15 transition-colors duration-300">
-                          {React.createElement(TYPE_ICON[creation.type], { size: 24, style: { color: "#0D2344" } })}
+                      <div className="w-12 h-12 rounded-xl flex items-center justify-center bg-[#011224]/10 group-hover:bg-[#011224]/15 transition-colors duration-300">
+                        {React.createElement(TYPE_ICON[creation.type], { size: 24, style: { color: "#011224" } })}
                         </div>
                         <div>
                           <h4 className="text-lg font-semibold mb-1" style={{ fontWeight: 500, color: NAVY }}>
@@ -321,9 +344,9 @@ const DashboardPage = () => {
                           onClick={() => handleCopyCreation(creation)}
                           className="group/btn p-3 rounded-xl transition-all duration-300 hover:scale-110 hover:-translate-y-1"
                           style={{
-                            background: "rgba(13, 35, 68, 0.06)",
-                            border: "1px solid rgba(13, 35, 68, 0.12)",
-                            color: copiedId === creation.id ? "#4CAF50" : NAVY,
+                          background: "rgba(1, 18, 36, 0.06)",
+                          border: "1px solid rgba(1, 18, 36, 0.12)",
+                          color: copiedId === creation.id ? "#4CAF50" : "#011224",
                           }}
                         >
                           {copiedId === creation.id ? (
@@ -336,9 +359,9 @@ const DashboardPage = () => {
                           onClick={() => handleDownloadCreation(creation)}
                           className="group/btn p-3 rounded-xl transition-all duration-300 hover:scale-110 hover:-translate-y-1"
                           style={{
-                            background: "rgba(13, 35, 68, 0.06)",
-                            border: "1px solid rgba(13, 35, 68, 0.12)",
-                            color: NAVY,
+                          background: "rgba(1, 18, 36, 0.06)",
+                          border: "1px solid rgba(1, 18, 36, 0.12)",
+                          color: "#011224",
                           }}
                         >
                           <Download size={18} />
