@@ -244,7 +244,7 @@ const DashboardPage = () => {
                 className={`
                   group relative overflow-hidden rounded-[28px] transition-all duration-300 hover:scale-105 hover:-translate-y-2
                   ${card.primary ? 'bg-[#0a0a0a] text-white' : 'bg-[#1a1a2e] text-[#f5f5f5] border'}
-                `
+
                 `}
                 style={{
                   borderColor: card.primary ? 'transparent' : '#2a2a3e',
@@ -400,7 +400,6 @@ const DashboardPage = () => {
           </div>
         </div>
       </div>
-    </div>
   );
 };
 

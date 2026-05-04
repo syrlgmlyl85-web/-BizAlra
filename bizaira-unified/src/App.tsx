@@ -20,6 +20,7 @@ import PricingStrategistPage from "./pages/PricingStrategistPage";
 import ImageStudioPage from "./pages/ImageStudioPage";
 import AuthPage from "./pages/AuthPage";
 import OnboardingPage from "./pages/OnboardingPage";
+import OnboardingWelcome from "./pages/OnboardingWelcome";
 import DashboardPage from "./pages/DashboardPage";
 import ProfilePage from "./pages/ProfilePage";
 import PricingPage from "./pages/PricingPage";
@@ -88,6 +89,7 @@ const App = () => {
             <BrowserRouter>
               <Routes>
                 <Route path="/auth" element={<AuthPage />} />
+                <Route path="/onboarding-welcome" element={<OnboardingWelcome />} />
                 <Route path="/onboarding" element={<OnboardingPage />} />
 
                 <Route path="/admin/pages" element={<AdminLayout><AdminPagesPage /></AdminLayout>} />
