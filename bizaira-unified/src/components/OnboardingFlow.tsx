@@ -1,9 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import { useI18n } from "@/lib/i18n";
-import { useAuth } from "@/hooks/useAuth";
-import { supabase } from "@/integrations/supabase/client";
-import { safeSetItem, safeSetSessionItem, safeGetSessionItem } from "@/lib/safe-storage";
 import { toast } from "sonner";
 import { createGuestSession, updateGuestSession, saveGuestOnboardingAnswers } from "@/lib/guest-session";
 import {
@@ -15,7 +11,7 @@ import {
 } from "lucide-react";
 
 interface OnboardingFlowProps {
-  onComplete: () => void;
+  onComplete: (mode: "guest" | "auth") => void;
 }
 
 type Step = "greeting" | "language" | "business" | "business-info" | "audience" | "audience-info" | "goal" | "done" | "guest-auth-choice";
@@ -38,7 +34,6 @@ const languageOptions: LangOption[] = [
 
 const OnboardingFlow = ({ onComplete }: OnboardingFlowProps) => {
   const { lang, setLang } = useI18n();
-  const { user } = useAuth();
   const isHe = lang === "he";
 
   const [step, setStep] = useState<Step>("greeting");
@@ -90,7 +85,7 @@ const OnboardingFlow = ({ onComplete }: OnboardingFlowProps) => {
     if (currentSelection?.value !== selectedLanguage?.value) {
       setSelectedLanguage(currentSelection);
     }
-  }, [lang]);
+  }, [lang, selectedLanguage]);
 
   const getStepNumber = (): number => {
     switch (step) {
@@ -655,7 +650,7 @@ const OnboardingFlow = ({ onComplete }: OnboardingFlowProps) => {
               width: "80px",
               height: "80px",
               borderRadius: "50%",
-              background: `linear-gradient(135deg, ${NAVY} 0%, ${GOLD} 100%)`,
+              background: `linear-gradient(135deg, ${NAVY} 0%, #083151 100%)`,
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -727,7 +722,7 @@ const OnboardingFlow = ({ onComplete }: OnboardingFlowProps) => {
                   createGuestSession();
                   updateGuestSession(onboardingData);
                   saveGuestOnboardingAnswers(onboardingData);
-                  onComplete();
+                  onComplete("guest");
                 }}
                 style={{
                   padding: "24px",
@@ -773,7 +768,7 @@ const OnboardingFlow = ({ onComplete }: OnboardingFlowProps) => {
                     business_goals: goal,
                   };
                   saveGuestOnboardingAnswers(onboardingData);
-                  window.location.href = "/auth";
+                  onComplete("auth");
                 }}
                 style={{
                   padding: "24px",

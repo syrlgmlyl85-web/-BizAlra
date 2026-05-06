@@ -1,32 +1,29 @@
 import { useState, useCallback, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import { useI18n } from "@/lib/i18n";
 import { useAuth } from "@/hooks/useAuth";
 import OnboardingFlow from "@/components/OnboardingFlow";
 import HomePage from "./HomePage";
 import AuthPage from "./AuthPage";
-import { safeSetItem, safeGetItem } from "@/lib/safe-storage";
+import { safeSetSessionItem, safeGetSessionItem } from "@/lib/safe-storage";
+import { isGuestSession } from "@/lib/guest-session";
 
 type Step = "onboarding" | "auth" | "home";
+export type OnboardingCompleteMode = "guest" | "auth";
 
 const LandingPage = () => {
-  const { lang } = useI18n();
-  const { user, loading, profile } = useAuth();
-  const navigate = useNavigate();
-  const isHe = lang === "he";
+  const { user, loading } = useAuth();
 
   const [step, setStep] = useState<Step>("onboarding");
 
   useEffect(() => {
     if (loading) return;
 
-    const onboardingComplete = safeGetItem("onboarding_complete");
-    const isGuest = safeGetItem("guest_mode");
+    const onboardingComplete = safeGetSessionItem("onboarding_complete");
+    const hasGuestSession = isGuestSession();
 
     if (user) {
       setStep("home");
-    } else if (isGuest) {
-      setStep("onboarding");
+    } else if (hasGuestSession && onboardingComplete) {
+      setStep("home");
     } else if (onboardingComplete) {
       setStep("auth");
     } else {
@@ -34,9 +31,13 @@ const LandingPage = () => {
     }
   }, [user, loading]);
 
-  const onOnboardingComplete = useCallback(() => {
-    safeSetItem("onboarding_complete", "true");
-    setStep("auth");
+  const onOnboardingComplete = useCallback((mode: OnboardingCompleteMode) => {
+    safeSetSessionItem("onboarding_complete", "true");
+    if (mode === "guest") {
+      setStep("home");
+    } else {
+      setStep("auth");
+    }
   }, []);
 
   // If user is loading, show loading

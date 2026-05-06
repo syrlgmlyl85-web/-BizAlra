@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { Sparkles, Mail, Lock, User, Phone, ArrowLeft, ArrowRight, Loader2, Eye, EyeOff } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { Sparkles, Mail, Lock, User, Phone, Loader2, Eye, EyeOff } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
-import { safeSetItem } from "@/lib/safe-storage";
+import { safeSetSessionItem } from "@/lib/safe-storage";
+import { createGuestSession, updateGuestSession, getSavedGuestAnswers } from "@/lib/guest-session";
 
 const MIDNIGHT_BLACK = "#0A0A1A";
 const INPUT_BG = "#F9F9FB";
@@ -18,15 +19,19 @@ const AuthPage = () => {
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [agreePolicy, setAgreePolicy] = useState(false);
   const [showPw, setShowPw] = useState(false);
   const [loading, setLoading] = useState(false);
   const [fade, setFade] = useState(true);
-  const BackArrow = isHe ? ArrowLeft : ArrowRight;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!isLogin && (!name || !email || !password || !phone)) {
       toast.error(isHe ? "נא למלא את כל השדות" : "Please fill in all fields");
+      return;
+    }
+    if (!isLogin && !agreePolicy) {
+      toast.error(isHe ? "אנא קבל את מדיניות האבטחה" : "Please accept the security policy");
       return;
     }
     if (isLogin && (!email || !password)) {
@@ -39,7 +44,7 @@ const AuthPage = () => {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
         toast.success(isHe ? "התחברת בהצלחה!" : "Logged in successfully!");
-        navigate("/create");
+        navigate("/");
       } else {
         const { error } = await supabase.auth.signUp({
           email,
@@ -55,7 +60,7 @@ const AuthPage = () => {
         });
         if (error) throw error;
         toast.success(isHe ? "החשבון נוצר! בדוק את האימייל שלך" : "Account created! Check your email");
-        navigate("/create");
+        navigate("/");
       }
     } catch (error: any) {
       toast.error(error.message || "Something went wrong");
@@ -81,13 +86,13 @@ const AuthPage = () => {
             <Sparkles size={28} className="text-white" strokeWidth={1.5} />
           </div>
           <h1 className="text-3xl md:text-4xl font-bold mb-2 leading-tight" style={{ color: MIDNIGHT_BLACK, fontFamily: "'Montserrat', sans-serif", fontWeight: 700 }}>
-            {isHe ? "מתחילים להתחבר," : "Let's Connect,"}
+            {isHe ? "הצטרף היום כדי להתחיל." : "Join today to get started."}
           </h1>
           <h2 className="text-2xl md:text-3xl font-bold mb-4 leading-tight" style={{ color: MIDNIGHT_BLACK, fontFamily: "'Montserrat', sans-serif", fontWeight: 700 }}>
-            {isHe ? "להתחיל להשתמש" : "Get Started"}
+            {isLogin ? (isHe ? "התחל עכשיו" : "Start Now") : ""}
           </h2>
           <p className="text-sm mt-3" style={{ color: "#747474" }}>
-            {isLogin ? (isHe ? "ברוכים חוזרים!" : "Welcome back!") : (isHe ? "צור חשבון חדש" : "Create a new account")}
+            {isLogin ? (isHe ? "התחבר כדי להמשיך" : "Sign in to continue") : (isHe ? "פתח את החשבון שלך כדי לשמור ולנהל את היצירות" : "Open your account to save and manage creations")}
           </p>
         </div>
 
@@ -220,17 +225,33 @@ const AuthPage = () => {
             </div>
           </FieldWrapper>
 
+          {/* Security policy */}
+          {!isLogin && (
+            <div className="flex items-start gap-3 mt-2">
+              <input
+                id="security-policy"
+                type="checkbox"
+                checked={agreePolicy}
+                onChange={(e) => setAgreePolicy(e.target.checked)}
+                className="mt-1 h-4 w-4 rounded border-gray-300 text-black focus:ring-black"
+              />
+              <label htmlFor="security-policy" className="text-sm text-gray-700">
+                {isHe ? "אני מסכים למדיניות האבטחה ותנאי השירות (כולל העלאת תוכן ותמונות)." : "I agree to the security policy and terms of service (allowing content and image uploads)."}
+              </label>
+            </div>
+          )}
+
           {/* Submit */}
           <button
             type="submit"
-            disabled={loading}
+            disabled={loading || (!isLogin && !agreePolicy)}
             className="w-full py-3.5 rounded-2xl font-bold text-white flex items-center justify-center gap-2 hover:scale-[1.02] transition-all disabled:opacity-60 disabled:cursor-not-allowed mt-2"
             style={{ backgroundColor: MIDNIGHT_BLACK }}
           >
             {loading
               ? <Loader2 size={18} className="animate-spin" />
               : <Sparkles size={18} />}
-            {isLogin ? (isHe ? "התחבר" : "Login") : (isHe ? "יצירת חשבון" : "Create Account")}
+            {isLogin ? (isHe ? "התחל עכשיו" : "Start Now") : (isHe ? "הרשמה" : "Sign Up")}
           </button>
 
           {/* Toggle */}
@@ -257,13 +278,15 @@ const AuthPage = () => {
           <button
             type="button"
             onClick={() => {
-              safeSetItem("guest_mode", "true");
+              createGuestSession();
+              updateGuestSession({});
+              safeSetSessionItem("onboarding_complete", "true");
               navigate("/");
             }}
             className="text-sm font-medium transition-colors"
             style={{ color: MIDNIGHT_BLACK }}
           >
-            {isHe ? "או המשך כאורח →" : "Or continue as guest →"}
+            {isHe ? "או המשך כאורח →" : "Continue as Guest"}
           </button>
         </div>
       </div>

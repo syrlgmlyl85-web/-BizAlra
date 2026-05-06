@@ -1,7 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import { Wand2, User, BarChart3, CreditCard, HelpCircle } from "lucide-react";
+import BottomNav from "@/components/BottomNav";
 import { useI18n } from "@/lib/i18n";
 import { useAuth } from "@/hooks/useAuth";
+import { getGuestSession } from "@/lib/guest-session";
+import { safeGetSessionItem } from "@/lib/safe-storage";
 
 // Business-Luxury Color Palette (NO GOLD)
 const NAVY = "#0D2344";
@@ -14,8 +17,10 @@ const HomePage = () => {
   const { user, profile } = useAuth();
   const navigate = useNavigate();
   const isHe = lang === "he";
+  const isGuest = !user && safeGetSessionItem("onboarding_complete") === "true" && !!getGuestSession();
+  const guestSession = isGuest ? getGuestSession() : null;
 
-  const userName = profile?.full_name || user?.user_metadata?.full_name || (isHe ? "משתמש" : "User");
+  const userName = profile?.full_name || user?.user_metadata?.full_name || (isGuest ? (isHe ? "אורח" : "Guest") : (isHe ? "משתמש" : "User"));
 
   // Feature cards matching specification exactly
   const features = [
@@ -77,6 +82,36 @@ const HomePage = () => {
       dir={isHe ? "rtl" : "ltr"}
       style={{ backgroundColor: CREAM }}
     >
+      {isGuest && (
+        <div className="max-w-5xl mx-auto mb-8 p-6 rounded-[28px]" style={{ backgroundColor: "#EAF3FF", border: "1px solid rgba(13, 35, 68, 0.08)" }}>
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.2em]" style={{ color: NAVY }}>
+                {isHe ? "מצב אורח" : "Guest mode"}
+              </p>
+              <h2 className="text-2xl font-bold mt-2" style={{ color: NAVY, fontFamily: "'Montserrat', sans-serif" }}>
+                {isHe ? "אתה ממשיך כאורח" : "You are continuing as a guest"}
+              </h2>
+              <p className="mt-2 text-sm" style={{ color: LIGHT_TEXT }}>
+                {guestSession?.businessType
+                  ? isHe
+                    ? `תחום העסק: ${guestSession.businessType}`
+                    : `Business type: ${guestSession.businessType}`
+                  : isHe
+                  ? "המשך לדפדף וליצור. התחבר כדי לשמור את היצירות שלך." 
+                  : "Browse and create. Sign in to save your work."}
+              </p>
+            </div>
+            <button
+              onClick={() => navigate("/auth")}
+              className="rounded-2xl px-5 py-3 font-semibold"
+              style={{ backgroundColor: NAVY, color: "#FFFFFF" }}
+            >
+              {isHe ? "התחבר לשמירה" : "Sign in to save"}
+            </button>
+          </div>
+        </div>
+      )}
       {/* Header Greeting - Specification Format */}
       <div className="pt-8 pb-8 max-w-5xl mx-auto">
         <h1
@@ -194,6 +229,7 @@ const HomePage = () => {
           </div>
         </div>
       </div>
+      <BottomNav />
     </div>
   );
 };
