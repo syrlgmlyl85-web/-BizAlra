@@ -25,13 +25,12 @@ type LangOption = {
   value: "en" | "he";
 };
 
-const NAVY = "#001830";
-const GOLD = "#001830"; // Changed to navy
-const CREAM = "hsl(45 20% 95%)";
-const OFF_WHITE = "hsl(220 25% 98%)";
-const DARK_GRAY = "hsl(220 12% 35%)";
-const MID_GRAY = "hsl(220 12% 50%)";
-const LIGHT_GRAY = "hsl(220 16% 92%)";
+const NAVY = "#001A33";
+const BLACK = "#000000";
+const WHITE = "#FFFFFF";
+const LIGHT_GRAY = "#E8E8E8";
+const MID_GRAY = "#999999";
+const BG_LIGHT = "#F5F5F5";
 
 const languageOptions: LangOption[] = [
   { label: "English", value: "en" },
@@ -40,6 +39,7 @@ const languageOptions: LangOption[] = [
 const OnboardingFlow = ({ onComplete }: OnboardingFlowProps) => {
   const { lang, setLang } = useI18n();
   const { user } = useAuth();
+  const isHe = lang === "he";
 
   const [step, setStep] = useState<Step>("greeting");
   const [selectedLanguage, setSelectedLanguage] = useState<LangOption | null>(
@@ -106,65 +106,62 @@ const OnboardingFlow = ({ onComplete }: OnboardingFlowProps) => {
     <div
       className="fixed inset-0 z-[100] flex items-center justify-center px-4 py-8"
       style={{
-        backgroundColor: CREAM,
-        backgroundImage: "radial-gradient(circle at top right, rgba(5,10,20,0.03) 1px, transparent 1px), radial-gradient(circle at bottom left, rgba(5,10,20,0.02) 1px, transparent 1px)",
+        backgroundColor: BG_LIGHT,
+        backgroundImage: "radial-gradient(circle at top right, rgba(0,0,0,0.02) 1px, transparent 1px), radial-gradient(circle at bottom left, rgba(0,0,0,0.02) 1px, transparent 1px)",
         backgroundSize: "72px 72px, 96px 96px",
       }}
       dir="ltr"
     >
       <div className="w-full max-w-2xl" style={{
         borderRadius: "24px",
-        border: `1px solid hsla(222 47% 8% / 0.1)`,
-        backgroundColor: "hsl(0 0% 100%)",
-        boxShadow: "0 32px 80px -40px rgba(5, 10, 20, 0.42)",
-        backdropFilter: "blur(20px)",
+        border: "none",
+        backgroundColor: WHITE,
+        boxShadow: "0 20px 60px rgba(0, 0, 0, 0.3)",
+        backdropFilter: "none",
         padding: "48px 40px",
       }}>
 
         {/* ─── Screen 1: Greeting ─── */}
         {step === "greeting" && (
           <div className="text-center animate-fade-in" dir="ltr">
-            <h1 className="mb-4" style={{ color: NAVY, fontFamily: "'Playfair Display', serif", fontSize: '2rem', fontWeight: 700 }}>
-              Elevate and Shape your unique brand experience with BizAIra
+            <h1 className="mb-4" style={{ color: NAVY, fontFamily: "'Playfair Display', serif", fontSize: '2.2rem', fontWeight: 700, lineHeight: 1.3, letterSpacing: '-0.5px' }}>
+              Design Your Business Future with BizAIra
             </h1>
-            <p className="mb-12 max-w-md mx-auto" style={{ color: DARK_GRAY, fontFamily: "'Montserrat', sans-serif", fontSize: '1rem' }}>
+            <p className="mb-12 max-w-md mx-auto" style={{ color: MID_GRAY, fontFamily: "'Montserrat', sans-serif", fontSize: '1rem', fontWeight: 400, lineHeight: 1.6 }}>
               Just 4 short questions to tailor a unique experience for your brand. It only takes a minute.
             </p>
 
             <button
-              onClick={() => setStep("language")}
+              onClick={() => {
+                setLang("en");
+                setStep("language");
+              }}
               style={{
                 width: "100%",
                 padding: "16px 24px",
                 borderRadius: "12px",
                 backgroundColor: NAVY,
-                color: CREAM,
+                color: WHITE,
                 fontSize: "1rem",
                 fontWeight: 600,
                 fontFamily: "'Montserrat', sans-serif",
                 letterSpacing: "0.01em",
                 border: "none",
-              }}
-            >
-              Get Started
-            </button>
-          </div>
-        )}
-                border: `1px solid ${GOLD}`,
                 cursor: "pointer",
-                boxShadow: `0 12px 30px -12px ${NAVY}`,
                 transition: "all 0.3s ease",
               }}
               onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = "#001425";
                 e.currentTarget.style.transform = "translateY(-2px)";
-                e.currentTarget.style.boxShadow = `0 16px 40px -8px ${NAVY}`;
+                e.currentTarget.style.boxShadow = "0 8px 24px rgba(0, 26, 51, 0.3)";
               }}
               onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = NAVY;
                 e.currentTarget.style.transform = "translateY(0)";
-                e.currentTarget.style.boxShadow = `0 12px 30px -12px ${NAVY}`;
+                e.currentTarget.style.boxShadow = "none";
               }}
             >
-              {isHe ? "התחלה עכשיו" : "Start Now"}
+              Get Started
             </button>
           </div>
         )}
@@ -172,7 +169,7 @@ const OnboardingFlow = ({ onComplete }: OnboardingFlowProps) => {
         {/* ─── Screen 2: Language Selection ─── */}
         {step === "language" && (
           <div className="animate-fade-in">
-            <StepHeader num={1} total={4} title="Which language do you prefer?" />
+            <StepHeader num={1} total={4} title="Which language do you prefer?" isHe={isHe} />
             
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "20px", marginBottom: "32px" }}>
               {languageOptions.map((option) => {
@@ -187,7 +184,7 @@ const OnboardingFlow = ({ onComplete }: OnboardingFlowProps) => {
                       borderRadius: "12px",
                       backgroundColor: selected ? NAVY : "hsl(0 0% 100%)",
                       border: `2px solid ${selected ? NAVY : LIGHT_GRAY}`,
-                      color: selected ? CREAM : NAVY,
+                      color: selected ? WHITE : NAVY,
                       fontSize: "1.125rem",
                       fontWeight: 600,
                       fontFamily: "var(--font-assistant)",
@@ -245,7 +242,7 @@ const OnboardingFlow = ({ onComplete }: OnboardingFlowProps) => {
                   padding: "12px 24px",
                   borderRadius: "10px",
                   backgroundColor: selectedLanguage ? NAVY : MID_GRAY,
-                  color: CREAM,
+                  color: WHITE,
                   fontSize: "1rem",
                   fontWeight: 600,
                   fontFamily: isHe ? "var(--font-assistant)" : "var(--font-montserrat)",
@@ -265,7 +262,7 @@ const OnboardingFlow = ({ onComplete }: OnboardingFlowProps) => {
         {/* ─── Screen 3: Business Type ─── */}
         {step === "business" && (
           <div className="animate-fade-in">
-            <StepHeader num={2} total={4} title="What's your business type?" />
+            <StepHeader num={2} total={4} title="What's your business type?" isHe={isHe} />
             
             <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "16px", marginBottom: "32px" }}>
               {businessTypes.map(({ label, Icon }) => {
@@ -283,7 +280,7 @@ const OnboardingFlow = ({ onComplete }: OnboardingFlowProps) => {
                       borderRadius: "12px",
                       backgroundColor: selected ? NAVY : "hsl(0 0% 100%)",
                       border: `2px solid ${selected ? NAVY : LIGHT_GRAY}`,
-                      color: selected ? CREAM : NAVY,
+                      color: selected ? WHITE : NAVY,
                       fontSize: "0.875rem",
                       fontWeight: 500,
                       fontFamily: isHe ? "var(--font-assistant)" : "var(--font-montserrat)",
@@ -340,7 +337,7 @@ const OnboardingFlow = ({ onComplete }: OnboardingFlowProps) => {
                   padding: "12px 24px",
                   borderRadius: "10px",
                   backgroundColor: businessType ? NAVY : MID_GRAY,
-                  color: CREAM,
+                  color: WHITE,
                   fontSize: "1rem",
                   fontWeight: 600,
                   fontFamily: isHe ? "var(--font-assistant)" : "var(--font-montserrat)",
@@ -375,7 +372,7 @@ const OnboardingFlow = ({ onComplete }: OnboardingFlowProps) => {
             <h2 className={`hebrew-heading-2 ${isHe ? 'hebrew-heading-2' : ''} mb-4`} style={{ color: NAVY, fontFamily: isHe ? "var(--font-heebo)" : "var(--font-playfair)" }}>
               {isHe ? "נהדר!" : "Perfect!"}
             </h2>
-            <p className={`hebrew-body ${isHe ? 'hebrew-body' : ''} mb-12 max-w-md mx-auto`} style={{ color: DARK_GRAY }}>
+            <p className={`hebrew-body ${isHe ? 'hebrew-body' : ''} mb-12 max-w-md mx-auto`} style={{ color: MID_GRAY }}>
               {isHe
                 ? `נתאים את כל דבר עבורך בתחום ה${businessType} — תוכן מדויק, תמונות מדהימות, וניסוחים שדוברים בשפת הלקוחות שלך.`
                 : `We'll tailor everything in the ${businessType} space — precise content, stunning photos, and copy that speaks to your customers.`}
@@ -397,7 +394,7 @@ const OnboardingFlow = ({ onComplete }: OnboardingFlowProps) => {
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.backgroundColor = NAVY;
-                e.currentTarget.style.color = CREAM;
+                e.currentTarget.style.color = WHITE;
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.backgroundColor = "hsl(0 0% 100%)";
@@ -412,7 +409,7 @@ const OnboardingFlow = ({ onComplete }: OnboardingFlowProps) => {
         {/* ─── Screen 4: Audience ─── */}
         {step === "audience" && (
           <div className="animate-fade-in">
-            <StepHeader num={3} total={4} title="Who's your audience?" />
+            <StepHeader num={3} total={4} title="Who's your audience?" isHe={isHe} />
             
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px", marginBottom: "32px" }}>
               {audiences.map(({ label, Icon }) => {
@@ -429,7 +426,7 @@ const OnboardingFlow = ({ onComplete }: OnboardingFlowProps) => {
                       borderRadius: "10px",
                       backgroundColor: selected ? NAVY : "hsl(0 0% 100%)",
                       border: `2px solid ${selected ? NAVY : LIGHT_GRAY}`,
-                      color: selected ? CREAM : NAVY,
+                      color: selected ? WHITE : NAVY,
                       fontSize: "0.875rem",
                       fontWeight: 500,
                       fontFamily: isHe ? "var(--font-assistant)" : "var(--font-montserrat)",
@@ -487,7 +484,7 @@ const OnboardingFlow = ({ onComplete }: OnboardingFlowProps) => {
                   padding: "12px 24px",
                   borderRadius: "10px",
                   backgroundColor: audience ? NAVY : MID_GRAY,
-                  color: CREAM,
+                  color: WHITE,
                   fontSize: "1rem",
                   fontWeight: 600,
                   fontFamily: isHe ? "var(--font-assistant)" : "var(--font-montserrat)",
@@ -522,7 +519,7 @@ const OnboardingFlow = ({ onComplete }: OnboardingFlowProps) => {
             <h2 className={`hebrew-heading-2 ${isHe ? 'hebrew-heading-2' : ''} mb-4`} style={{ color: NAVY, fontFamily: isHe ? "var(--font-heebo)" : "var(--font-playfair)" }}>
               {isHe ? "מעולה!" : "Excellent!"}
             </h2>
-            <p className={`hebrew-body ${isHe ? 'hebrew-body' : ''} mb-12 max-w-md mx-auto`} style={{ color: DARK_GRAY }}>
+            <p className={`hebrew-body ${isHe ? 'hebrew-body' : ''} mb-12 max-w-md mx-auto`} style={{ color: MID_GRAY }}>
               {isHe
                 ? `נתאים את הטון, הסגנון והשפה כדי פנות בדיוק ל${audience} — תוכן שמושך, מדבר ולהניע לפעולה.`
                 : `We'll match the tone, style, and language to reach ${audience} — content that attracts, speaks, and drives action.`}
@@ -544,7 +541,7 @@ const OnboardingFlow = ({ onComplete }: OnboardingFlowProps) => {
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.backgroundColor = NAVY;
-                e.currentTarget.style.color = CREAM;
+                e.currentTarget.style.color = WHITE;
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.backgroundColor = "hsl(0 0% 100%)";
@@ -559,7 +556,7 @@ const OnboardingFlow = ({ onComplete }: OnboardingFlowProps) => {
         {/* ─── Screen 5: Goal ─── */}
         {step === "goal" && (
           <div className="animate-fade-in">
-            <StepHeader num={4} total={4} title="What's your current goal?" />
+            <StepHeader num={4} total={4} title="What's your current goal?" isHe={isHe} />
             
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "16px", marginBottom: "32px" }}>
               {goals.map(({ label, Icon }) => {
@@ -576,7 +573,7 @@ const OnboardingFlow = ({ onComplete }: OnboardingFlowProps) => {
                       borderRadius: "10px",
                       backgroundColor: selected ? NAVY : "hsl(0 0% 100%)",
                       border: `2px solid ${selected ? NAVY : LIGHT_GRAY}`,
-                      color: selected ? CREAM : NAVY,
+                      color: selected ? WHITE : NAVY,
                       fontSize: "0.875rem",
                       fontWeight: 500,
                       fontFamily: isHe ? "var(--font-assistant)" : "var(--font-montserrat)",
@@ -634,7 +631,7 @@ const OnboardingFlow = ({ onComplete }: OnboardingFlowProps) => {
                   padding: "12px 24px",
                   borderRadius: "10px",
                   backgroundColor: goal ? NAVY : MID_GRAY,
-                  color: CREAM,
+                  color: WHITE,
                   fontSize: "1rem",
                   fontWeight: 600,
                   fontFamily: isHe ? "var(--font-assistant)" : "var(--font-montserrat)",
@@ -665,12 +662,12 @@ const OnboardingFlow = ({ onComplete }: OnboardingFlowProps) => {
               margin: "0 auto 24px",
               boxShadow: `0 12px 40px -12px ${NAVY}`,
             }}>
-              <Check size={40} style={{ color: CREAM, strokeWidth: 3 }} />
+              <Check size={40} style={{ color: WHITE, strokeWidth: 3 }} />
             </div>
             <h2 className={`hebrew-heading-2 ${isHe ? 'hebrew-heading-2' : ''} mb-4`} style={{ color: NAVY, fontFamily: isHe ? "var(--font-heebo)" : "var(--font-playfair)" }}>
               {isHe ? "הכל מוכן!" : "All Set!"}
             </h2>
-            <p className={`hebrew-body ${isHe ? 'hebrew-body' : ''} mb-12 max-w-md mx-auto`} style={{ color: DARK_GRAY }}>
+            <p className={`hebrew-body ${isHe ? 'hebrew-body' : ''} mb-12 max-w-md mx-auto`} style={{ color: MID_GRAY }}>
               {isHe
                 ? "התאמנו הכל בדיוק בשבילך — תוכן חכם, מדויק ומותאם לעסק שלך. בלי סיבוכים, בלי המתנה. בואו נבנה משהו גדול."
                 : "Everything's tailored just for you — smart, precise content for your business. No complications, no waiting. Let's build something great."}
@@ -682,7 +679,7 @@ const OnboardingFlow = ({ onComplete }: OnboardingFlowProps) => {
                 padding: "16px 24px",
                 borderRadius: "12px",
                 backgroundColor: NAVY,
-                color: CREAM,
+                color: WHITE,
                 fontSize: isHe ? "1.125rem" : "1rem",
                 fontWeight: 600,
                 fontFamily: isHe ? "var(--font-assistant)" : "var(--font-montserrat)",
@@ -712,7 +709,7 @@ const OnboardingFlow = ({ onComplete }: OnboardingFlowProps) => {
             <h2 className="text-2xl sm:text-3xl font-bold mb-4" style={{ color: NAVY, fontFamily: "'Montserrat', sans-serif" }}>
               {isHe ? "בואו נתחילו" : "Let's Get Started"}
             </h2>
-            <p className="mb-8 max-w-md mx-auto" style={{ color: DARK_GRAY }}>
+            <p className="mb-8 max-w-md mx-auto" style={{ color: MID_GRAY }}>
               {isHe
                 ? "תוכלו להמשיך כאורח או להתחבר כדי לשמור את כל היצירות שלכם."
                 : "You can continue as a guest or sign in to save all your creations."}
@@ -783,7 +780,7 @@ const OnboardingFlow = ({ onComplete }: OnboardingFlowProps) => {
                   borderRadius: "12px",
                   backgroundColor: NAVY,
                   border: `2px solid ${NAVY}`,
-                  color: CREAM,
+                  color: WHITE,
                   cursor: "pointer",
                   transition: "all 0.3s ease",
                   display: "flex",
@@ -819,7 +816,7 @@ const OnboardingFlow = ({ onComplete }: OnboardingFlowProps) => {
   );
 };
 
-const StepHeader = ({ num, total, title }: { num: number; total: number; title: string }) => (
+const StepHeader = ({ num, total, title, isHe }: { num: number; total: number; title: string; isHe?: boolean }) => (
   <div style={{ marginBottom: "32px" }}>
     <div style={{ display: "flex", gap: "8px", marginBottom: "16px" }}>
       {Array.from({ length: total }, (_, i) => (
