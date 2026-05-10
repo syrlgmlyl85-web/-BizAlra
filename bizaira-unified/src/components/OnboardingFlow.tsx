@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { useI18n } from "@/lib/i18n";
 import { toast } from "sonner";
 import { createGuestSession, updateGuestSession, saveGuestOnboardingAnswers } from "@/lib/guest-session";
-import { safeSetSessionItem } from "@/lib/safe-storage";
 import {
   ArrowLeft, Check,
   ShoppingBag, Utensils, Star, Home, Monitor, Briefcase,
@@ -625,7 +624,6 @@ const OnboardingFlow = ({ onComplete }: OnboardingFlowProps) => {
                       business_goals: goal,
                     };
                     saveGuestOnboardingAnswers(onboardingData);
-                    safeSetSessionItem("onboarding_complete", "true");
                     onComplete("auth");
                   }
                 }}

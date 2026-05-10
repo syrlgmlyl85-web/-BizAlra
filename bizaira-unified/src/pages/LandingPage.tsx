@@ -4,7 +4,6 @@ import OnboardingFlow from "@/components/OnboardingFlow";
 import HomePage from "./HomePage";
 import AuthPage from "./AuthPage";
 import { safeSetSessionItem, safeGetSessionItem } from "@/lib/safe-storage";
-import { isGuestSession } from "@/lib/guest-session";
 
 type Step = "onboarding" | "auth" | "home";
 export type OnboardingCompleteMode = "guest" | "auth";
@@ -18,28 +17,22 @@ const LandingPage = () => {
     if (loading) return;
 
     const onboardingComplete = safeGetSessionItem("onboarding_complete");
-    const hasGuestSession = isGuestSession();
 
     if (user) {
       setStep("home");
-    } else if (hasGuestSession && onboardingComplete) {
-      setStep("home");
     } else if (onboardingComplete) {
-      setStep("auth");
+      setStep("home");
     } else {
       setStep("onboarding");
     }
   }, [user, loading]);
 
   const onOnboardingComplete = useCallback((mode: OnboardingCompleteMode) => {
-    if (mode === "auth") {
-      safeSetSessionItem("onboarding_complete", "true");
-    }
-    if (mode === "guest") {
-      setStep("home");
-    } else {
-      setStep("auth");
-    }
+    // Always go to home after onboarding, regardless of mode
+    // Mark onboarding as complete so they don't see it again
+    safeSetSessionItem("onboarding_complete", "true");
+    safeSetSessionItem("onboarding_just_completed", "true");
+    setStep("home");
   }, []);
 
   // If user is loading, show loading

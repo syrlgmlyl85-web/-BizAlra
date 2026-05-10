@@ -1,97 +1,198 @@
 import { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
-import { Checkbox } from '@/components/ui/checkbox';
 import { useI18n } from '@/lib/i18n';
 import { CookieConsent, setCookieConsent, loadTrackingScripts } from '@/lib/cookie-consent';
+import { safeSetItem } from '@/lib/safe-storage';
 
 interface CookieConsentPopupProps {
   onConsent: (consent: CookieConsent) => void;
+  isVisible: boolean;
 }
 
-const CookieConsentPopup = ({ onConsent }: CookieConsentPopupProps) => {
-  const { t } = useI18n();
+const CookieConsentPopup = ({ onConsent, isVisible }: CookieConsentPopupProps) => {
+  const { t, lang } = useI18n();
+  const isHe = lang === "he";
   const [showCustomize, setShowCustomize] = useState(false);
   const [analytics, setAnalytics] = useState(false);
   const [marketing, setMarketing] = useState(false);
+
+  if (!isVisible) return null;
 
   const handleAcceptAll = () => {
     const consent: CookieConsent = { analytics: true, marketing: true };
     setCookieConsent(consent);
     loadTrackingScripts(consent);
+    safeSetItem("bizaira_cookie_consent_shown", "true");
     onConsent(consent);
   };
 
-  const handleRejectNonEssential = () => {
+  const handleRejectAll = () => {
     const consent: CookieConsent = { analytics: false, marketing: false };
     setCookieConsent(consent);
+    safeSetItem("bizaira_cookie_consent_shown", "true");
     onConsent(consent);
   };
 
   const handleCustomize = () => {
-    setShowCustomize(true);
+    setShowCustomize(!showCustomize);
   };
 
   const handleSaveCustom = () => {
     const consent: CookieConsent = { analytics, marketing };
     setCookieConsent(consent);
     loadTrackingScripts(consent);
+    safeSetItem("bizaira_cookie_consent_shown", "true");
     onConsent(consent);
     setShowCustomize(false);
   };
 
-  return (
-    <div className="fixed bottom-4 left-4 right-4 z-50 bg-white border border-gray-200 rounded-lg shadow-lg p-4 max-w-md mx-auto">
-      <div className="text-sm text-gray-700 mb-4">
-        {t('cookie.consent.message', 'We use cookies to enhance your experience. Please choose your preferences.')}
-      </div>
-      <div className="flex flex-col gap-2">
-        <Button onClick={handleAcceptAll} className="w-full">
-          {t('cookie.consent.acceptAll', 'Accept All')}
-        </Button>
-        <Button onClick={handleRejectNonEssential} variant="outline" className="w-full">
-          {t('cookie.consent.rejectNonEssential', 'Reject Non-Essential')}
-        </Button>
-        <Button onClick={handleCustomize} variant="ghost" className="w-full">
-          {t('cookie.consent.customize', 'Customize')}
-        </Button>
-      </div>
+  const DEEP_MIDNIGHT_BLUE = "#001F3F";
+  const PEARL_WHITE = "#F9FAFB";
+  const LIGHT_GRAY = "#E5E7EB";
 
-      <Dialog open={showCustomize} onOpenChange={setShowCustomize}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>{t('cookie.consent.customizeTitle', 'Cookie Preferences')}</DialogTitle>
-          </DialogHeader>
-          <div className="space-y-4">
-            <div className="flex items-center space-x-2">
-              <Checkbox
-                id="analytics"
-                checked={analytics}
-                onCheckedChange={(checked) => setAnalytics(!!checked)}
-              />
-              <label htmlFor="analytics" className="text-sm">
-                {t('cookie.consent.analytics', 'Analytics cookies (Google Analytics, Hotjar)')}
-              </label>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Checkbox
-                id="marketing"
-                checked={marketing}
-                onCheckedChange={(checked) => setMarketing(!!checked)}
-              />
-              <label htmlFor="marketing" className="text-sm">
-                {t('cookie.consent.marketing', 'Marketing cookies (Meta Pixel, Google Tag Manager)')}
-              </label>
-            </div>
-            <p className="text-xs text-gray-500">
-              {t('cookie.consent.strictlyNecessary', 'Strictly necessary cookies are always enabled for authentication and security.')}
+  return (
+    <div
+      className="fixed inset-0 flex items-center justify-center z-50 px-4"
+      style={{ backgroundColor: "rgba(0, 0, 0, 0.3)" }}
+      dir={isHe ? "rtl" : "ltr"}
+    >
+      <div
+        className="rounded-2xl p-8 max-w-md w-full shadow-xl"
+        style={{ backgroundColor: "#FFFFFF", boxShadow: "0 20px 60px rgba(0, 21, 41, 0.15)" }}
+      >
+        {!showCustomize ? (
+          <>
+            {/* Header */}
+            <h2
+              className="text-xl font-bold text-center mb-4"
+              style={{ color: DEEP_MIDNIGHT_BLUE, fontFamily: "'Assistant', sans-serif" }}
+            >
+              {isHe ? "הגדרות עוגיות" : "Cookie Settings"}
+            </h2>
+
+            {/* Message */}
+            <p
+              className="text-sm text-center mb-6 leading-relaxed"
+              style={{ color: "#747474", fontFamily: isHe ? "'Heebo', sans-serif" : "'Assistant', sans-serif" }}
+            >
+              {t("cookie.consent.message")}
             </p>
-          </div>
-          <Button onClick={handleSaveCustom} className="w-full">
-            {t('cookie.consent.save', 'Save Preferences')}
-          </Button>
-        </DialogContent>
-      </Dialog>
+
+            {/* Buttons */}
+            <div className="flex flex-col gap-3">
+              <button
+                onClick={handleAcceptAll}
+                className="w-full py-3 rounded-xl font-bold text-white text-sm transition-all duration-300 hover:shadow-lg active:scale-95"
+                style={{ backgroundColor: DEEP_MIDNIGHT_BLUE, fontFamily: "'Assistant', sans-serif" }}
+              >
+                {t("cookie.consent.acceptAll")}
+              </button>
+
+              <button
+                onClick={handleCustomize}
+                className="w-full py-3 rounded-xl font-bold text-sm transition-all duration-300 border hover:shadow-lg active:scale-95"
+                style={{
+                  backgroundColor: "#FFFFFF",
+                  color: DEEP_MIDNIGHT_BLUE,
+                  borderColor: LIGHT_GRAY,
+                  fontFamily: "'Assistant', sans-serif",
+                }}
+              >
+                {t("cookie.consent.customize")}
+              </button>
+
+              <button
+                onClick={handleRejectAll}
+                className="w-full py-3 rounded-xl font-bold text-sm transition-all duration-300 hover:shadow-lg active:scale-95"
+                style={{
+                  backgroundColor: LIGHT_GRAY,
+                  color: "#4B5563",
+                  fontFamily: "'Assistant', sans-serif",
+                }}
+              >
+                {t("cookie.consent.rejectNonEssential")}
+              </button>
+            </div>
+          </>
+        ) : (
+          <>
+            {/* Customize View */}
+            <h2
+              className="text-xl font-bold text-center mb-6"
+              style={{ color: DEEP_MIDNIGHT_BLUE, fontFamily: "'Assistant', sans-serif" }}
+            >
+              {t("cookie.consent.customizeTitle")}
+            </h2>
+
+            <div className="space-y-4 mb-6">
+              {/* Analytics Checkbox */}
+              <label className="flex items-start gap-3 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={analytics}
+                  onChange={(e) => setAnalytics(e.target.checked)}
+                  className="mt-1 w-4 h-4 rounded"
+                  style={{ accentColor: DEEP_MIDNIGHT_BLUE }}
+                />
+                <span
+                  className="text-sm leading-relaxed"
+                  style={{ color: "#747474", fontFamily: isHe ? "'Heebo', sans-serif" : "'Assistant', sans-serif" }}
+                >
+                  {t("cookie.consent.analytics")}
+                </span>
+              </label>
+
+              {/* Marketing Checkbox */}
+              <label className="flex items-start gap-3 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={marketing}
+                  onChange={(e) => setMarketing(e.target.checked)}
+                  className="mt-1 w-4 h-4 rounded"
+                  style={{ accentColor: DEEP_MIDNIGHT_BLUE }}
+                />
+                <span
+                  className="text-sm leading-relaxed"
+                  style={{ color: "#747474", fontFamily: isHe ? "'Heebo', sans-serif" : "'Assistant', sans-serif" }}
+                >
+                  {t("cookie.consent.marketing")}
+                </span>
+              </label>
+
+              {/* Info Text */}
+              <p
+                className="text-xs leading-relaxed"
+                style={{ color: "#999999", fontFamily: isHe ? "'Heebo', sans-serif" : "'Assistant', sans-serif" }}
+              >
+                {t("cookie.consent.strictlyNecessary")}
+              </p>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex flex-col gap-3">
+              <button
+                onClick={handleSaveCustom}
+                className="w-full py-3 rounded-xl font-bold text-white text-sm transition-all duration-300 hover:shadow-lg active:scale-95"
+                style={{ backgroundColor: DEEP_MIDNIGHT_BLUE, fontFamily: "'Assistant', sans-serif" }}
+              >
+                {t("cookie.consent.save")}
+              </button>
+
+              <button
+                onClick={handleCustomize}
+                className="w-full py-3 rounded-xl font-bold text-sm transition-all duration-300 border"
+                style={{
+                  backgroundColor: "#FFFFFF",
+                  color: DEEP_MIDNIGHT_BLUE,
+                  borderColor: LIGHT_GRAY,
+                  fontFamily: "'Assistant', sans-serif",
+                }}
+              >
+                {isHe ? "חזור" : "Back"}
+              </button>
+            </div>
+          </>
+        )}
+      </div>
     </div>
   );
 };

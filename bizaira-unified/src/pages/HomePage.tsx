@@ -1,7 +1,11 @@
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Wand2, User, BarChart3, Crown, HelpCircle } from "lucide-react";
 import BottomNav from "@/components/BottomNav";
+import CookieConsentPopup from "@/components/CookieConsentPopup";
 import { useI18n } from "@/lib/i18n";
+import { safeGetItem, safeSetItem } from "@/lib/safe-storage";
+import { safeGetSessionItem, safeRemoveSessionItem } from "@/lib/safe-storage";
 
 // Luxury Color Palette
 const DEEP_MIDNIGHT_BLUE = "#001529";
@@ -11,6 +15,19 @@ const HomePage = () => {
   const { lang } = useI18n();
   const navigate = useNavigate();
   const isHe = lang === "he";
+  const [showCookiePopup, setShowCookiePopup] = useState(false);
+
+  useEffect(() => {
+    // Check if user just completed onboarding and hasn't seen cookie consent
+    const onboardingJustCompleted = safeGetSessionItem("onboarding_just_completed");
+    const cookieConsentShown = safeGetItem("bizaira_cookie_consent_shown");
+
+    if (onboardingJustCompleted && !cookieConsentShown) {
+      setShowCookiePopup(true);
+      // Clear the flag so it doesn't show again
+      safeRemoveSessionItem("onboarding_just_completed");
+    }
+  }, []);
 
   // Feature cards for clean navigation
   const features = [
@@ -57,14 +74,23 @@ const HomePage = () => {
       dir={isHe ? "rtl" : "ltr"}
       style={{ backgroundColor: PEARL_WHITE }}
     >
-      {/* Clean Header */}
-      <div className="pt-8 pb-8 max-w-5xl mx-auto">
-        <h1
-          className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight mb-3"
-          style={{ color: DEEP_MIDNIGHT_BLUE, fontFamily: "'Assistant', sans-serif", fontWeight: 700 }}
+      {/* Clean Header with Login Button */}
+      <div className="pt-8 pb-8 max-w-5xl mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div className="flex-1">
+          <h1
+            className="text-3xl sm:text-4xl md:text-5xl font-bold leading-tight mb-3"
+            style={{ color: DEEP_MIDNIGHT_BLUE, fontFamily: "'Assistant', sans-serif", fontWeight: 700 }}
+          >
+            {isHe ? "היי, מה תרצה לבנות היום?" : "Hey, what would you like to build today?"}
+          </h1>
+        </div>
+        <button
+          onClick={() => navigate("/auth")}
+          className="px-6 sm:px-8 py-3 rounded-2xl font-semibold text-white text-sm sm:text-base hover:shadow-lg transition-all duration-300 active:scale-95 shrink-0"
+          style={{ backgroundColor: DEEP_MIDNIGHT_BLUE, fontFamily: "'Assistant', sans-serif" }}
         >
-          {isHe ? "היי, מה תרצה לבנות היום?" : "Hey, what would you like to build today?"}
-        </h1>
+          {isHe ? "התחברות / הרשמה" : "Login / Sign Up"}
+        </button>
       </div>
 
       {/* Navigation Grid */}
@@ -121,6 +147,10 @@ const HomePage = () => {
           })}
         </div>
       </div>
+      <CookieConsentPopup 
+        isVisible={showCookiePopup} 
+        onConsent={() => setShowCookiePopup(false)} 
+      />
       <BottomNav />
     </div>
   );
