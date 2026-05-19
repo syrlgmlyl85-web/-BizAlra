@@ -59,13 +59,13 @@
   --radius-xl: 16px;
 
   /* ── Base ── */
-  --background:    42 18% 96%;
+  --background:    210 10% 98%;
   --foreground:    224 90% 5%;
 
   /* ── Cards / Surfaces ── */
-  --card:             42 22% 98%;
+  --card:             210 10% 98%;
   --card-foreground:  224 90% 5%;
-  --popover:          42 22% 98%;
+  --popover:          210 10% 98%;
   --popover-foreground: 224 90% 5%;
 
   /* ── Primary = Midnight Blue / Almost Black ── */
@@ -73,9 +73,9 @@
   --primary-foreground: 0 0% 100%;
 
   /* ── Secondary / Muted ── */
-  --secondary:             42 20% 95%;
+  --secondary:             210 10% 98%;
   --secondary-foreground:  224 90% 11%;
-  --muted:                 42 22% 96%;
+  --muted:                 210 10% 98%;
   --muted-foreground:      224 55% 18%;
 
   /* ── Accent = Midnight Blue ── */
