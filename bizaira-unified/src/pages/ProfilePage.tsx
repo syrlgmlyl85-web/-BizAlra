@@ -124,6 +124,107 @@ const ProfilePage = () => {
         </div>
       )}
 
+      {showSettings && (
+        <div className="fixed inset-0 z-40 flex items-center justify-center bg-[#001830]/15 px-4 py-6 backdrop-blur-sm">
+          <div className="absolute inset-0 bg-[#001830]/10" onClick={() => setShowSettings(false)} />
+          <div className="relative w-full max-w-2xl rounded-[28px] border border-slate-200 bg-white p-8 shadow-[0_28px_80px_rgba(0,24,48,0.18)]">
+            {/* Close Button */}
+            <button
+              type="button"
+              onClick={() => setShowSettings(false)}
+              className="absolute top-6 right-6 sm:top-8 sm:right-8 flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 transition-colors hover:bg-slate-200"
+            >
+              <X size={20} className="text-[#001830]" />
+            </button>
+
+            {/* Header */}
+            <div className="mb-8">
+              <h2 className="text-3xl font-semibold text-[#001830]">
+                {isHe ? "ערוך פרופיל" : "Edit profile"}
+              </h2>
+              <p className="mt-2 text-sm text-slate-600">
+                {isHe ? "עדכן את המידע החשוב שלך" : "Update your important information"}
+              </p>
+            </div>
+
+            {/* Form Fields */}
+            <div className="space-y-6">
+              {/* Full Name */}
+              <div>
+                <label className="block text-sm font-semibold text-[#000B18] mb-2">
+                  {isHe ? "שם מלא" : "Full name"}
+                </label>
+                <input
+                  type="text"
+                  value={editName}
+                  onChange={(e) => setEditName(e.target.value)}
+                  placeholder={isHe ? "השם שלך" : "Your name"}
+                  className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-[#001830] placeholder:text-slate-400 focus:border-[#000B18] focus:outline-none focus:ring-2 focus:ring-[#000B18]/20 transition-all"
+                  dir={isHe ? "rtl" : "ltr"}
+                />
+              </div>
+
+              {/* Target Audience */}
+              <div>
+                <label className="block text-sm font-semibold text-[#000B18] mb-2">
+                  {isHe ? "קהל יעד" : "Target audience"}
+                </label>
+                <input
+                  type="text"
+                  value={editAudience}
+                  onChange={(e) => setEditAudience(e.target.value)}
+                  placeholder={isHe ? "לדוגמה: עסקים קטנים, סטארטאפים" : "E.g., small businesses, startups"}
+                  className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-[#001830] placeholder:text-slate-400 focus:border-[#000B18] focus:outline-none focus:ring-2 focus:ring-[#000B18]/20 transition-all"
+                  dir={isHe ? "rtl" : "ltr"}
+                />
+              </div>
+
+              {/* Business Goals */}
+              <div>
+                <label className="block text-sm font-semibold text-[#000B18] mb-2">
+                  {isHe ? "יעדי עסק" : "Business goals"}
+                </label>
+                <textarea
+                  value={editBusinessGoals}
+                  onChange={(e) => setEditBusinessGoals(e.target.value)}
+                  placeholder={isHe ? "תאר את היעדים העיקריים שלך" : "Describe your main business goals"}
+                  rows={4}
+                  className="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-[#001830] placeholder:text-slate-400 focus:border-[#000B18] focus:outline-none focus:ring-2 focus:ring-[#000B18]/20 transition-all resize-none"
+                  dir={isHe ? "rtl" : "ltr"}
+                />
+              </div>
+
+              {/* Status Message */}
+              {settingsMessage && (
+                <div className={`rounded-lg px-4 py-3 text-sm ${settingsMessage.includes("בהצלחה") || settingsMessage.includes("successfully") ? "bg-emerald-50 text-emerald-700" : "bg-red-50 text-red-700"}`}>
+                  {settingsMessage}
+                </div>
+              )}
+            </div>
+
+            {/* Action Buttons */}
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:justify-end sm:gap-4">
+              <button
+                type="button"
+                onClick={() => setShowSettings(false)}
+                className="rounded-xl border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-[#001830] transition hover:bg-slate-50"
+                disabled={savingSettings}
+              >
+                {isHe ? "ביטול" : "Cancel"}
+              </button>
+              <button
+                type="button"
+                onClick={handleSaveSettings}
+                disabled={savingSettings}
+                className="rounded-xl bg-[#000B18] px-6 py-3 text-sm font-semibold text-white transition hover:bg-[#001830] disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {savingSettings ? (isHe ? "שומר..." : "Saving...") : (isHe ? "שמור שינויים" : "Save changes")}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 lg:px-8">
         <header className="mb-8">
           <div className="max-w-4xl">
@@ -219,7 +320,7 @@ const ProfilePage = () => {
             </button>
             <button
               type="button"
-              onClick={() => navigate("/settings")}
+              onClick={() => setShowSettings(true)}
               className="group flex items-center justify-between rounded-xl border border-gray-100 bg-gray-50 px-4 py-4 text-sm font-medium text-[#2D3748] transition-all duration-300 hover:bg-[#001830] hover:text-white"
             >
               <span>{isHe ? "הגדרות" : "Settings"}</span>
